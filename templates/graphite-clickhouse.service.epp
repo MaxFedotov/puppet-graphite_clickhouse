@@ -1,0 +1,21 @@
+<%- | String $user,
+      String $group,
+      String $config_file
+| -%>
+### MANAGED BY PUPPET ###
+[Unit]
+Description=Graphite cluster backend with ClickHouse support
+Documentation=https://github.com/lomik/graphite-clickhouse
+After=network.target
+
+[Service]
+User=<%= $user %>
+Group=<%= $group %>
+Type=simple
+PermissionsStartOnly=true
+ExecStart=/usr/bin/graphite-clickhouse -config <%= $config_file %>
+Restart=on-failure
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target
