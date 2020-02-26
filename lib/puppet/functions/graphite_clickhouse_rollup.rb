@@ -17,7 +17,9 @@ Puppet::Functions.create_function(:'graphite_clickhouse_rollup') do
             if name != "default"
                 xml += "\t\t\t<regexp>%s</regexp>\n" % [configuration["pattern"]]
             end
-            xml += "\t\t\t<function>%s</function>\n" % [configuration["aggregationMethod"]]
+            if configuration.has_key?("aggregationMethod")
+                xml += "\t\t\t<function>%s</function>\n" % [configuration["aggregationMethod"]]
+            end
             last_age = 0
             retentions.each { |retention|
                 xml += "\t\t\t<retention>\n"
